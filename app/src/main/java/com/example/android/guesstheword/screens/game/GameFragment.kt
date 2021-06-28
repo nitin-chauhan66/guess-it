@@ -59,6 +59,7 @@ class GameFragment : Fragment() {
         //Get a reference of gameViewModel class
         gameViewModel = ViewModelProvider(this).get(GameViewModel::class.java)
         binding.gameViewModel = gameViewModel
+        binding.lifecycleOwner = this
         gameViewModel.resetList()
         gameViewModel.nextWord()
 
@@ -69,23 +70,24 @@ class GameFragment : Fragment() {
 //            gameViewModel.onSkip()
 //        }
 
-        gameViewModel.score.observe(viewLifecycleOwner, Observer { newScore ->
-            binding.scoreText.text = newScore.toString()
-        })
-        gameViewModel.word.observe(viewLifecycleOwner, Observer { newWord ->
-            binding.wordText.text = newWord
-        })
+        //@score and @word can be updated directly by data-binding
+//        gameViewModel.score.observe(viewLifecycleOwner, Observer { newScore ->
+//            binding.scoreText.text = newScore.toString()
+//        })
+//        gameViewModel.word.observe(viewLifecycleOwner, Observer { newWord ->
+//            binding.wordText.text = newWord
+//        })
         gameViewModel.eventGameFinished.observe(this, Observer { hasFinished ->
             if (hasFinished) {
                 gameFinished()
                 gameViewModel.onGameFinished()
             }
         })
-        gameViewModel.currentTime.observe(this, Observer { newTime ->
-            binding.timerText.visibility = View.VISIBLE
-            binding.invalidateAll()
-            binding.timerText.text = DateUtils.formatElapsedTime(newTime)
-        })
+//        gameViewModel.currentTime.observe(this, Observer { newTime ->
+//            binding.timerText.visibility = View.VISIBLE
+//            binding.invalidateAll()
+//            binding.timerText.text = DateUtils.formatElapsedTime(newTime)
+//        })
         return binding.root
 
     }
